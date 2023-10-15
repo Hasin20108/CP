@@ -1,0 +1,73 @@
+
+=====dijastra Algo=========
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    freopen("/media/hasin/New Volume/DESKTOP/desktop files/CP/input.txt","r",stdin); 
+    int n,e;
+    cin >> n >> e;
+    vector<int> dist(n+1,1e7);
+    vector<pair<int,int>> adj[n+1];
+    int u,v,w;
+    for(int i = 0; i < e; i++){
+        cin >> u >> v >> w;
+        adj[u].push_back({v,w});
+        adj[v].push_back({u,w});
+    }
+    set<pair<int,int>> s;
+    int source; cin >> source;
+    s.insert({0,source});
+    dist[source] = 0;
+
+    while(!s.empty()){
+        auto x = *(s.begin());
+        s.erase(x);
+        for(auto it : adj[x.second]){
+            if(dist[it.first] > dist[x.second] + it.second){
+                s.erase({dist[it.first],it.first});
+                dist[it.first] = dist[x.second] + it.second;
+                s.insert({dist[it.first],it.first});
+            }
+        }
+    }
+    for(int i = 1; i <= n; i++){
+        if(dist[i] < 1e7){
+            cout << dist[i] << " ";
+        }else cout << -1 << " ";
+    }cout << endl;
+    return 0;
+}
+
+
+=======Rabincurp=======
+int hashing(string s){
+    int hassh = 0; int n = s.length();
+    for(int i = 0; i < n; i++){
+        hassh *= 26;hassh += (s[i] - 'a' + 1);
+    }return hassh;
+}
+bool chek(string s,string t){
+    int n = t.length();
+    for(int i = 0; i < n;i++){
+        if(t[i] != s[i]){return false;}
+    }return true;
+}
+int hashing2(int fst,char ch, char ch1, int tt){
+    int x = ch - 'a' + 1;tt--;
+    while(tt--){x *= 26;}
+    fst = fst - x; fst *= 26; fst += (ch1 - 'a' + 1); 
+    return fst;
+}
+int RabinCarp(string haystack, string needle){
+    int pat = hashing(needle); int fst = hashing(haystack.substr(0,needle.length()));
+    if(pat == fst){
+        if(chek(haystack.substr(0,needle.length()), needle)){return 0;}
+    }int tt = needle.length();int n = haystack.length();char ch = haystack[0], ch1;
+    for(int i = 1; i < n-tt+1; i++){
+        ch1 = haystack[i+tt-1];int p = hashing2(fst,ch,ch1,tt);
+        if(p == pat){
+            if(chek(haystack.substr(i,tt),needle)){return i;}
+        }ch = haystack[i];fst = p;
+    }return -1;
+}
+// rabincurp end

@@ -1,0 +1,2 @@
+
+    sort(ar,ar+n);

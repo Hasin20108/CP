@@ -1,0 +1,3 @@
+"hasin";
+    s = "has";
+    cout

@@ -1,0 +1,1 @@
+int float double string for if else while do main return cin cout ios_base true false using namespace std #include void 
